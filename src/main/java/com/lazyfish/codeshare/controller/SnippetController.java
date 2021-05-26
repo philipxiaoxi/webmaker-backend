@@ -108,19 +108,24 @@ public class SnippetController {
      */
 
     @RequestMapping(value = "/common/getImageByHeader",produces = MediaType.IMAGE_JPEG_VALUE)
-//    @ResponseBody
-    public void getImageByHeader(String src, HttpServletResponse response) throws IOException {
-        URL url = new URL(src);
-        HttpURLConnection conn =(HttpURLConnection)url.openConnection();
-        String v = conn.getHeaderField("Content-Length");
-        response.setHeader("Content-Length", v);
-        InputStream inputStream=conn.getInputStream();
-        ServletOutputStream outputStream = response.getOutputStream();
-        byte[] bytes = new byte[10240];
-
-        int cnt = 0;
-        while ( (cnt = inputStream.read(bytes) ) > 0) {
-            outputStream.write(bytes, 0, cnt);
+    public void getImageByHeader(String src, HttpServletResponse response) throws Exception {
+        ServletOutputStream outputStream =null;
+        try {
+            URL url = new URL(src);
+            HttpURLConnection conn =(HttpURLConnection)url.openConnection();
+            String v = conn.getHeaderField("Content-Length");
+            response.setHeader("Content-Length", v);
+            InputStream inputStream=conn.getInputStream();
+            outputStream = response.getOutputStream();
+            byte[] bytes = new byte[10240];
+            int cnt = 0;
+            while ( (cnt = inputStream.read(bytes) ) > 0) {
+                outputStream.write(bytes, 0, cnt);
+            }
+        }catch (Exception e){
+            response.sendError(422);
+            outputStream.close();
+            throw new Exception("无法获取图片。");
         }
     }
 }
