@@ -35,9 +35,4 @@ public class ResultBuild {
         this.message = message;
     }
 
-    //    public static void main(String[] args) {
-//        WordInfo wordInfo = new WordInfo();
-//        wordInfo.setAdress("test");
-//        System.out.println(new ResultBuild(12,wordInfo));
-//    }
 }

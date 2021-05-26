@@ -8,11 +8,9 @@ import com.lazyfish.codeshare.entity.SnippetList;
 import com.lazyfish.codeshare.service.SnippetService;
 import com.lazyfish.codeshare.utils.ResultBuild;
 import com.lazyfish.codeshare.validator.SnippetValidator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;

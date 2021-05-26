@@ -20,10 +20,7 @@ public class LoginControllerAdvice {
     @ExceptionHandler(NotLoginException.class)
     public ResultBuild handlerNotLoginException(NotLoginException nle, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-
         // 打印堆栈，以供调试
-        //nle.printStackTrace();
-
         // 判断场景值，定制化异常信息
         String message = "";
         if (nle.getType().equals(NotLoginException.NOT_TOKEN)) {
@@ -39,13 +36,16 @@ public class LoginControllerAdvice {
         } else {
             message = "当前会话未登录";
         }
-
         // 返回给前端
         return new ResultBuild(401, message);
     }
 
 
-
+    /**
+     * IllegalArgumentException错误返回给前端
+     * @param e
+     * @return
+     */
     @ResponseBody
     @ExceptionHandler(IllegalArgumentException.class)
     public ResultBuild illegalArgument(Exception e) {
@@ -53,17 +53,29 @@ public class LoginControllerAdvice {
         return new ResultBuild(422, e.getMessage());
     }
 
+    /**
+     * RequireIdNotExistException 返回给前端
+     * @param e
+     * @return
+     */
     @ResponseBody
     @ExceptionHandler({RequireIdNotExistException.class})
     public ResultBuild NotFound(Exception e) {
         // 返回给前端
         return new ResultBuild(404, e.getMessage());
     }
+
+    /**
+     * Exception 错误 返回给前端
+     * @param e
+     * @return
+     */
     @ResponseBody
     @ExceptionHandler({Exception.class})
     public ResultBuild Error(Exception e) {
         // 返回给前端
-        return new ResultBuild(500, e.getMessage());
+        System.out.println(e);
+        return new ResultBuild(500, "服务器发生了错误。");
     }
 }
 

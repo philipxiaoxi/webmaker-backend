@@ -1,6 +1,7 @@
 package com.lazyfish.codeshare.utils;
 
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
 public class FileUtils {
         private static final HashMap<String,String> map = new HashMap<>();
@@ -44,6 +45,18 @@ public class FileUtils {
             return split[split.length - 1].toLowerCase();
         } else {
             return name;
+        }
+    }
+
+    /**
+     * 判断文件路径是否包含非法路径
+     * @param path
+     * @throws Exception
+     */
+    public static void pathTest(String path) throws Exception {
+        Pattern pattern = Pattern.compile("(\\\\|/)\\.\\.(\\\\|/)|(\\\\|/)\\.\\.$|^\\.\\.(\\\\|/)");
+        if(pattern.matcher(path).find()){
+            throw new Exception("非法的路径，不得包含/../或使用/..结尾");
         }
     }
 }
