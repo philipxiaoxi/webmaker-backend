@@ -70,7 +70,12 @@ public class SnippetController {
         Snippet snippet = snippetService.getSnippet(id);
         return new ResultBuild(200,snippet);
     }
-
+    @RequestMapping("/common/SnippetHtml/{id}")
+    @ResponseBody
+    public String SnippetHtml(@PathVariable int id) {
+        Snippet snippet = snippetService.getSnippet(id);
+        return snippet.getContent();
+    }
     // TODO: 2021/5/23 修复片段ID是前端传过来的
     @RequestMapping("/api/updateSnippet")
     @ResponseBody

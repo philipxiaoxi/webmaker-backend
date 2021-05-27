@@ -16,13 +16,12 @@ import java.util.Map;
 @Primary
 public interface UserTableDao {
     /**
-     * 查询一个表的全部内容，支持所选字段
-     * @param fields
-     * @param tableName
+     * 查询语句
+     * @param sql
      * @return
      */
-    @Select("SELECT ${fields} FROM ${tableName}")
-    List<Map<String, Object>> getUserTable(@Param("fields")String fields, @Param("tableName")String tableName);
+    @Select("${sql}")
+    List<Map<String, Object>> getUserTable(@Param("sql")String sql);
 
     /**
      * 查询一个表的一项内容，支持所选字段，搜索条件
@@ -31,7 +30,7 @@ public interface UserTableDao {
      * @param data
      * @return
      */
-    @Select("SELECT ${fields} FROM ${tableName} where ${field} = ${data}")
+    @Select("SELECT #{fields} FROM #{tableName} where #{field} = #{data}")
     Map<String, Object> getUserTableByField(@Param("fields")String fields, @Param("field")String field,@Param("data")String data);
 
     @Update("UPDATE user SET ${fields} where ${field} = ${data}")

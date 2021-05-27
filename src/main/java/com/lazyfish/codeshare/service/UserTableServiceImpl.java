@@ -9,11 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class UserTableServiceImpl implements UserTableService{
+public class UserTableServiceImpl{
     @Autowired
     private UserTableDao userTableDao;
-    @Override
-    public List<Map<String, Object>> getUserTable(String fields, String tableName) {
-        return userTableDao.getUserTable(fields,tableName);
-    }
 }
