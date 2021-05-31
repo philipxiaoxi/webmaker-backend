@@ -31,10 +31,11 @@ public class SnippetProjectController {
     }
     @RequestMapping("/common/getSnippetProjectFile/**")
     @ResponseBody
-    public ResponseEntity<FileSystemResource> getSnippetProjectFile(HttpServletRequest httpServletRequest) {
+    public ResponseEntity<FileSystemResource> getSnippetProjectFile(HttpServletRequest httpServletRequest) throws Exception {
         String url = String.valueOf(httpServletRequest.getRequestURL());
         String urls[] = url.split("/");
         String path=url.substring(url.indexOf(urls[5]));
+        FileUtils.pathTest(path);
         String temp_path = rootPath+"/code/" +"/" +path;
         return ResponseEntity.ok()
                 .header("Content-Type", FileUtils.getContentType(url))
@@ -42,11 +43,49 @@ public class SnippetProjectController {
     }
     @RequestMapping("/api/updateSnippetProjectFile")
     @ResponseBody
-    public ResultBuild updateSnippet(@RequestHeader("token") String token,String content,String path) throws Exception {
+    public ResultBuild updateSnippetProjectFile(@RequestHeader("token") String token,String content,String path) throws Exception {
         FileUtils.pathTest(path);
         String id = path.split("/")[0];
         String userid = (String) StpUtil.getLoginIdByToken(token);
         snippetValidator.validate(Integer.parseInt(userid),Integer.valueOf(id));
         return new ResultBuild(200,dirOperation.update(path,content));
+    }
+    @RequestMapping("/api/SnippetProjectReName")
+    @ResponseBody
+    public ResultBuild SnippetProjectReName(@RequestHeader("token") String token,String path,String new_path) throws Exception {
+        FileUtils.pathTest(path);
+        FileUtils.pathTest(new_path);
+        String id = path.split("/")[0];
+        String userid = (String) StpUtil.getLoginIdByToken(token);
+        snippetValidator.validate(Integer.parseInt(userid),Integer.valueOf(id));
+        return new ResultBuild(200,dirOperation.reName(path, new_path));
+    }
+    @RequestMapping("/api/SnippetProjectNewDirectory")
+    @ResponseBody
+    public ResultBuild SnippetProjectNewDirectory(@RequestHeader("token") String token,String path) throws Exception {
+        FileUtils.pathTest(path);
+        String id = path.split("/")[0];
+        String userid = (String) StpUtil.getLoginIdByToken(token);
+        snippetValidator.validate(Integer.parseInt(userid),Integer.valueOf(id));
+        return new ResultBuild(200,dirOperation.newDirectory(path));
+    }
+    @RequestMapping("/api/SnippetProjectNewFile")
+    @ResponseBody
+    public ResultBuild SnippetProjectNewFile(@RequestHeader("token") String token,String path,String name) throws Exception {
+        FileUtils.pathTest(path);
+        FileUtils.pathTest(name);
+        String id = path.split("/")[0];
+        String userid = (String) StpUtil.getLoginIdByToken(token);
+        snippetValidator.validate(Integer.parseInt(userid),Integer.valueOf(id));
+        return new ResultBuild(200,dirOperation.newFile(path,name));
+    }
+    @RequestMapping("/api/SnippetProjectDelFile")
+    @ResponseBody
+    public ResultBuild SnippetProjectDelFile(@RequestHeader("token") String token,String path) throws Exception {
+        FileUtils.pathTest(path);
+        String id = path.split("/")[0];
+        String userid = (String) StpUtil.getLoginIdByToken(token);
+        snippetValidator.validate(Integer.parseInt(userid),Integer.valueOf(id));
+        return new ResultBuild(200,dirOperation.delFile(path));
     }
 }

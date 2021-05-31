@@ -80,7 +80,7 @@ public class LoginControllerAdvice {
     public ResultBuild Error(Exception e) {
         // 返回给前端
         System.out.println(e);
-        return new ResultBuild(500, "服务器发生了错误。");
+        return new ResultBuild(500, e.getMessage());
     }
 }
 
