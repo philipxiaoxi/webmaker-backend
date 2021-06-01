@@ -17,6 +17,8 @@ import com.lazyfish.codeshare.validator.SnippetValidator;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 @CrossOrigin(origins = "*") // 支持跨域
 @Controller
@@ -39,7 +41,7 @@ public class SnippetProjectController {
     public ResponseEntity<FileSystemResource> getSnippetProjectFile(HttpServletRequest httpServletRequest) throws Exception {
         String url = String.valueOf(httpServletRequest.getRequestURL());
         String urls[] = url.split("/");
-        String path=url.substring(url.indexOf(urls[5]));
+        String path=URLDecoder.decode(url.substring(url.indexOf(urls[5])), "UTF-8");
         FileUtils.pathTest(path);
         String temp_path = rootPath+"/code/" +"/" +path;
         return ResponseEntity.ok()
