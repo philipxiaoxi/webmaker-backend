@@ -30,7 +30,7 @@ public interface SnippetDao {
     @Select("select `user`.name,`user`.identity,snippet.id,snippet.type,snippet.title from user,snippet where `user`.id=snippet.userid AND snippet.title like \"%\"#{title}\"%\" order by id desc")
     List<SnippetList>  getSearchSnippet(String title);
 
-    @Insert("INSERT INTO snippet (userid, title) VALUES (#{userid}, #{title})")
+    @Insert("INSERT INTO snippet (userid, title ,type) VALUES (#{userid}, #{title}, #{type})")
     @Options(useGeneratedKeys=true, keyProperty="id", keyColumn="id")
     void insertSnippet(Snippet snippet);
 

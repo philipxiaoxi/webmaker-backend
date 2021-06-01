@@ -210,4 +210,18 @@ public class DirOperation {
             }
         });
     }
+
+    /**
+     * 移动文件或文件夹
+     * @param path 文件路径 例如：55/1.txt
+     * @param new_path 新文件路径 例如：55/new/1.txt
+     */
+    public void moveFile(String path,String new_path){
+        String root_file =rootPath + "/code/";
+        try {
+            Files.move(Paths.get(root_file+path), Paths.get(root_file+new_path), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

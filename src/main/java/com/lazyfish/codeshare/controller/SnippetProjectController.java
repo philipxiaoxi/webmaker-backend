@@ -1,6 +1,8 @@
 package com.lazyfish.codeshare.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
+import com.lazyfish.codeshare.entity.Snippet;
+import com.lazyfish.codeshare.service.SnippetService;
 import com.lazyfish.codeshare.utils.DirOperation;
 import com.lazyfish.codeshare.utils.FileUtils;
 import com.lazyfish.codeshare.utils.ResultBuild;
@@ -14,10 +16,13 @@ import org.springframework.web.bind.annotation.*;
 import com.lazyfish.codeshare.validator.SnippetValidator;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @CrossOrigin(origins = "*") // 支持跨域
 @Controller
 public class SnippetProjectController {
+    @Resource
+    SnippetService snippetService;
     @Resource
     SnippetValidator snippetValidator;
     @Autowired
@@ -56,6 +61,10 @@ public class SnippetProjectController {
         FileUtils.pathTest(path);
         FileUtils.pathTest(new_path);
         String id = path.split("/")[0];
+        String id2 = new_path.split("/")[0];
+        if(!id.equals(id2)){
+            throw new Exception("非法跨片段存储。");
+        }
         String userid = (String) StpUtil.getLoginIdByToken(token);
         snippetValidator.validate(Integer.parseInt(userid),Integer.valueOf(id));
         return new ResultBuild(200,dirOperation.reName(path, new_path));
@@ -87,5 +96,30 @@ public class SnippetProjectController {
         String userid = (String) StpUtil.getLoginIdByToken(token);
         snippetValidator.validate(Integer.parseInt(userid),Integer.valueOf(id));
         return new ResultBuild(200,dirOperation.delFile(path));
+    }
+    @RequestMapping("/api/insertSnippetProject")
+    @ResponseBody
+    public ResultBuild insertSnippet(@RequestHeader("token") String token, Snippet snippet) throws IOException {
+        Integer userid = Integer.parseInt((String) StpUtil.getLoginIdByToken(token));
+        snippet.setUserid(userid);
+        snippet.setType(1);
+        snippetService.insertSnippet(snippet);
+        dirOperation.newDirectory(String.valueOf(snippet.getId()));
+        return new ResultBuild(200,snippet.getId());
+    }
+    @RequestMapping("/api/SnippetProjectMoveFile")
+    @ResponseBody
+    public ResultBuild SnippetProjectMoveFile(@RequestHeader("token") String token,String path,String new_path) throws Exception {
+        FileUtils.pathTest(path);
+        FileUtils.pathTest(new_path);
+        String id = path.split("/")[0];
+        String id2 = new_path.split("/")[0];
+        if(!id.equals(id2)){
+            throw new Exception("非法跨片段存储。");
+        }
+        String userid = (String) StpUtil.getLoginIdByToken(token);
+        snippetValidator.validate(Integer.parseInt(userid),Integer.valueOf(id));
+        dirOperation.moveFile(path, new_path);
+        return new ResultBuild(200,true);
     }
 }

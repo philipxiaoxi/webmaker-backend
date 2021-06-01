@@ -7,7 +7,7 @@ public class Snippet {
     private String title;
     private String note;
     private String img;
-    private int type;
+    private int type =0;
     public int getId() {
         return id;
     }
