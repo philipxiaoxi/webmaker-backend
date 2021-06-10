@@ -46,7 +46,7 @@ public class SnippetProjectController {
         String temp_path = rootPath+"/code/" +"/" +path;
         return ResponseEntity.ok()
                 .header("Content-Type", FileUtils.getContentType(url))
-                .body(new FileSystemResource(temp_path));
+                .body(new DirOperation().getFileSystemResource(temp_path));
     }
     @RequestMapping("/api/updateSnippetProjectFile")
     @ResponseBody

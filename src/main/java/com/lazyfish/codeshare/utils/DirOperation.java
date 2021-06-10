@@ -1,7 +1,18 @@
 package com.lazyfish.codeshare.utils;
 
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.impl.IndexedListSerializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.lazyfish.codeshare.entity.FileInfo;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -14,49 +25,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
-class FileInfo {
-    private String label;
-    private List<FileInfo> children;
-    private String type;
-    private String path;
-    FileInfo(String label, List<FileInfo> children,String type,String path) {
-        this.label = label;
-        this.children = children;
-        this.type = type;
-        this.path = path;
-    }
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    public List<FileInfo> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<FileInfo> children) {
-        this.children = children;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-}
 
 
 @Component
@@ -69,6 +37,7 @@ public class DirOperation {
      * @param id 代码片段id
      * @return
      */
+    @Cacheable(cacheNames = "snippetProject_tree",key = "#id")
     public FileInfo getTree(Integer id) {
         System.out.println(rootPath);
         File file = new File(rootPath+"/code/" + String.valueOf(id));
@@ -86,6 +55,14 @@ public class DirOperation {
         return rootPath+"/code/" + id +"/";
     }
 
+    /**
+     * 获取 并 返回文件资源
+     * @param path
+     * @return
+     */
+    public FileSystemResource getFileSystemResource(String path){
+        return  new FileSystemResource(path);
+    }
     /**
      * 递归获取树形信息
      * @param father 遍历的父目录节点信息
@@ -147,6 +124,7 @@ public class DirOperation {
      * @param new_path 文件新路径
      * @return
      */
+    @CacheEvict(cacheNames = "snippetProject_tree",key = "#path.split('/')[0]")
     public boolean reName(String path,String new_path){
         String root_file =rootPath + "/code/";
         return new File(root_file+path).renameTo(new File(root_file+new_path));
@@ -158,6 +136,7 @@ public class DirOperation {
      * @return
      * @throws IOException
      */
+    @CacheEvict(cacheNames = "snippetProject_tree",key = "#path.split('/')[0]")
     public boolean newDirectory(String path) throws IOException {
         String root_file =rootPath + "/code/";
         Path temp_path = Paths.get(root_file+path);
@@ -173,6 +152,7 @@ public class DirOperation {
      * @return
      * @throws IOException
      */
+    @CacheEvict(cacheNames = "snippetProject_tree",key = "#path.split('/')[0]")
     public boolean newFile(String path,String name) throws IOException {
         String root_file =rootPath + "/code/";
         Path temp_path = Paths.get(root_file+path+"/"+name);
@@ -186,6 +166,7 @@ public class DirOperation {
      * @return
      * @throws IOException
      */
+    @CacheEvict(cacheNames = "snippetProject_tree",key = "#path.split('/')[0]")
     public boolean delFile(String path) throws IOException {
         String root_file =rootPath + "/code/";
         Path temp_path = Paths.get(root_file+path);
@@ -216,6 +197,7 @@ public class DirOperation {
      * @param path 文件路径 例如：55/1.txt
      * @param new_path 新文件路径 例如：55/new/1.txt
      */
+    @CacheEvict(cacheNames = "snippetProject_tree",key = "#path.split('/')[0]")
     public void moveFile(String path,String new_path){
         String root_file =rootPath + "/code/";
         try {
