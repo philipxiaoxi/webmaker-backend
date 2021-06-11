@@ -37,7 +37,7 @@ public class SnippetController {
             return new ResultBuild(401, "无有效id。");
         }
         //[pageNum, pageSize]  页码  每页显示数量
-        PageHelper.startPage(pageNum, 10);
+        PageHelper.startPage(pageNum, 12);
         PageInfo<SnippetList> pageInfo = new PageInfo<>(snippetService.getSnippetByUserid(Integer.parseInt(id)));
         return new ResultBuild(200,pageInfo);
 
@@ -46,7 +46,7 @@ public class SnippetController {
     @ResponseBody
     public ResultBuild getAllSnippet(int pageNum) {
         //[pageNum, pageSize]  页码  每页显示数量
-        PageHelper.startPage(pageNum, 10);
+        PageHelper.startPage(pageNum, 12);
         PageInfo<SnippetList> pageInfo = new PageInfo<>(snippetService.getAllSnippet());
         return new ResultBuild(200,pageInfo);
 
@@ -55,7 +55,7 @@ public class SnippetController {
     @ResponseBody
     public ResultBuild getSearchSnippet(int pageNum,String title) {
         //[pageNum, pageSize]  页码  每页显示数量
-        PageHelper.startPage(pageNum, 10);
+        PageHelper.startPage(pageNum, 12);
         PageInfo<SnippetList> pageInfo = new PageInfo<>(snippetService.getSearchSnippet(title));
         return new ResultBuild(200,pageInfo);
     }
