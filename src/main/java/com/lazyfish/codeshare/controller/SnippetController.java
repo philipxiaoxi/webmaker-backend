@@ -102,8 +102,8 @@ public class SnippetController {
     @RequestMapping("/api/insertSnippet")
     @ResponseBody
     public ResultBuild insertSnippet(@RequestHeader("token") String token,Snippet snippet) {
-        Integer userid = Integer.parseInt((String) StpUtil.getLoginIdByToken(token));
-        snippet.setUserid(userid);
+        Integer userId = Integer.parseInt((String) StpUtil.getLoginIdByToken(token));
+        snippet.setUserid(userId);
         // 图片不再保存到数据库
         snippet.setImg("");
         snippetService.insertSnippet(snippet);
