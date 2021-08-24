@@ -93,7 +93,9 @@ public class SnippetController {
         String userid = (String) StpUtil.getLoginIdByToken(token);
         snippetValidator.validate(Integer.parseInt(userid),snippet.getId());
         // 保存到文件
-        SnippetImage.GenerateImage(snippet.getImg(), rootPath + "/img/" + snippet.getId() + ".jpg");
+        if(snippet.getImg()!= "" && snippet.getImg()!= null) {
+            SnippetImage.GenerateImage(snippet.getImg(), rootPath + "/img/" + snippet.getId() + ".jpg");
+        }
         // 图片不再保存到数据库
         snippet.setImg("");
         return new ResultBuild(200,snippetService.updateSnippet(snippet));
