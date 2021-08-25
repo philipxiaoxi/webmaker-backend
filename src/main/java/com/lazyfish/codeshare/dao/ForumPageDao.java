@@ -1,6 +1,5 @@
 package com.lazyfish.codeshare.dao;
 
-import com.lazyfish.codeshare.entity.ForumPage;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
