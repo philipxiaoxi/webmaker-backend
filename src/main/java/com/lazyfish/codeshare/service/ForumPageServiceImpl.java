@@ -5,6 +5,7 @@ import com.lazyfish.codeshare.entity.ForumPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -20,5 +21,10 @@ public class ForumPageServiceImpl implements ForumPageService{
     @Override
     public Map<String, Object> getForumPage(int id) {
         return forumPageDao.getForumPage(id);
+    }
+
+    @Override
+    public void updateForumPageTime(Date time, int id) {
+        forumPageDao.updateForumPageTime(time, id);
     }
 }
