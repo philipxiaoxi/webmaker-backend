@@ -4,12 +4,13 @@ import com.lazyfish.codeshare.dao.UserDao;
 import com.lazyfish.codeshare.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
-
+    final static private String SALT = "1145141919810233";
     @Override
     public int getTotal() {
         return userDao.getTotal();
@@ -22,6 +23,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByLogin(String phone, String password) {
+        password = DigestUtils.md5DigestAsHex((SALT + password).getBytes());
+        System.out.println(password);
         return userDao.getUserByLogin(phone, password);
     }
 
@@ -32,6 +35,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int insertUser(String phone, String password) {
+        password = DigestUtils.md5DigestAsHex((SALT + password).getBytes());
         return userDao.insertUser(phone, password);
     }
 
