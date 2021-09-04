@@ -12,4 +12,5 @@ public class ForumPage {
     String topic;
     String content;
     Date time;
+    Date updateTime;
 }
