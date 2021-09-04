@@ -27,4 +27,9 @@ public class ForumPageServiceImpl implements ForumPageService{
     public void updateForumPageTime(Date time, int id) {
         forumPageDao.updateForumPageTime(time, id);
     }
+
+    @Override
+    public void insertForumPage(ForumPage forumPage) {
+        forumPageDao.insertForumPage(forumPage);
+    }
 }

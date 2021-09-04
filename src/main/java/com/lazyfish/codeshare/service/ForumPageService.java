@@ -10,4 +10,5 @@ public interface ForumPageService {
     List<Map<String, Object>> getAllForumPage();
     Map<String, Object> getForumPage(int id);
     void updateForumPageTime(Date time, int id);
+    void insertForumPage(ForumPage forumPage);
 }
