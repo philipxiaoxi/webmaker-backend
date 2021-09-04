@@ -30,4 +30,9 @@ public class ForumReplyServiceImpl implements ForumReplyService{
         forumReplyDao.insertForumReply(forumReply);
     }
 
+    @Override
+    public ForumReply getForumReplyById(int id) {
+        return forumReplyDao.getForumReplyById(id);
+    }
+
 }
