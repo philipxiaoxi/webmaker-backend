@@ -1,9 +1,7 @@
 package com.lazyfish.codeshare.dao;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import com.lazyfish.codeshare.entity.ForumPage;
+import org.apache.ibatis.annotations.*;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
@@ -21,4 +19,7 @@ public interface ForumPageDao {
     Map<String, Object> getForumPage(@Param("id")int id);
     @Update("UPDATE `forum_page` SET `updateTime`=#{time} WHERE (`id`=#{id})")
     void updateForumPageTime(@Param("time") Date time, @Param("id")int id);
+    @Insert("INSERT INTO `forum_page` (`userId`, `preface`, `title`, `topic`, `content`, `time`, `updateTime`) VALUES (#{userId}, #{preface}, #{title}, #{topic}, #{content}, #{time}, #{updateTime})")
+    @Options(useGeneratedKeys=true, keyProperty="id", keyColumn="id")
+    void insertForumPage(ForumPage forumPage);
 }
