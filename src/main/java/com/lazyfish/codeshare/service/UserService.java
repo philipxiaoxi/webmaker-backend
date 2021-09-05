@@ -11,7 +11,11 @@ public interface UserService {
 
     int updateUser(User user);
 
-    int insertUser(String phone, String password);
+    int insertUser(String phone, String password, String email, String code) throws Exception;
 
     User getUserByPhone(String phone);
+
+    User getUserByEmail(String email);
+
+    void getRandomString(int len, String email, String ip) throws Exception;
 }

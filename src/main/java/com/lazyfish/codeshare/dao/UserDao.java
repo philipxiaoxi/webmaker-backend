@@ -19,12 +19,15 @@ public interface UserDao {
     @Select("SELECT * FROM user WHERE phone = #{phone}")
     User getUserByPhone(@Param("phone") String phone);
 
+    @Select("SELECT * FROM user WHERE email = #{email}")
+    User getUserByEmail(@Param("email") String email);
+
     @Select("SELECT * FROM user WHERE phone = #{phone} AND pwd=#{pwd}")
     User getUserByLogin(@Param("phone") String phone, @Param("pwd") String pwd);
 
     @Update("UPDATE user SET name=#{name},sex=#{sex},email=#{email},sign=#{sign},phone=#{phone} WHERE id= #{id}")
     int updateUser(User user);
 
-    @Insert("INSERT INTO user (phone, pwd) VALUES (#{phone}, #{pwd})")
-    int insertUser(@Param("phone") String phone, @Param("pwd") String pwd);
+    @Insert("INSERT INTO `user` (`email`, `phone`, `pwd`) VALUES (#{email}, #{phone}, #{pwd})")
+    int insertUser(@Param("phone") String phone, @Param("pwd") String pwd, @Param("email") String email);
 }
