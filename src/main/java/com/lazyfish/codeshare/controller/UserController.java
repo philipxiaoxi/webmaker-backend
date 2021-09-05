@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+
 @CrossOrigin(origins = "*") // 支持跨域
 @Controller
 public class UserController {
@@ -62,19 +64,24 @@ public class UserController {
         }
     }
 
-    @RequestMapping("/api/insertUser")
+    @RequestMapping("/common/insertUser")
     @ResponseBody
-    public ResultBuild insertUser(String phone, String password) {
+    public ResultBuild insertUser(String phone, String password,String email, String code) throws Exception {
         if (phone != null && phone.equals("") != true && password != null && password.equals("") != true) {
-            if (userService.getUserByPhone(phone) == null) {
-                return new ResultBuild(200, userService.insertUser(phone, password));
+            if (userService.getUserByEmail(email) == null) {
+                return new ResultBuild(200, userService.insertUser(phone, password, email, code));
             } else {
-                return new ResultBuild(-1, "手机号已经注册。");
+                return new ResultBuild(-1, "邮箱已经注册。");
             }
-
         } else {
             return new ResultBuild(-1, "账号或密码为空。");
         }
 
+    }
+    @RequestMapping("/common/sendSignCode")
+    @ResponseBody
+    public ResultBuild sendSignCode(HttpServletRequest httpServletRequest, String email) throws Exception {
+        userService.getRandomString(4, email, httpServletRequest.getRemoteAddr());
+        return new ResultBuild(200, "您的邮件已发送，请查收。");
     }
 }
