@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -32,6 +33,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> getAllUser() {
+        return userDao.getAllUser();
+    }
+
+    @Override
     public User getUserByLogin(String phone, String password) {
         password = DigestUtils.md5DigestAsHex((SALT + password).getBytes());
         System.out.println(password);
@@ -39,8 +45,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int updateUser(User user) {
-        return userDao.updateUser(user);
+    public int updateUser(User user) throws Exception {
+        try {
+            int id = userDao.updateUser(user);
+            return id;
+        }catch (Exception e) {
+            throw new Exception("修改失败，可能手机号和邮箱已存在。");
+        }
     }
 
     @Override

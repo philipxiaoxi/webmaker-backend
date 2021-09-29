@@ -1,6 +1,10 @@
 package com.lazyfish.codeshare.controller;
 
+import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.stp.StpUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.lazyfish.codeshare.entity.SnippetList;
 import com.lazyfish.codeshare.entity.User;
 import com.lazyfish.codeshare.service.UserService;
 import com.lazyfish.codeshare.utils.ResultBuild;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @CrossOrigin(origins = "*") // 支持跨域
 @Controller
@@ -30,7 +35,6 @@ public class UserController {
         } else {
             return new ResultBuild(401, "账号密码验证失败");
         }
-
     }
 
     @RequestMapping("/api/getUserInfo")
@@ -50,7 +54,7 @@ public class UserController {
 
     @RequestMapping("/api/updateUser")
     @ResponseBody
-    public ResultBuild updateUser(@RequestHeader("token") String token, User modify_user) {
+    public ResultBuild updateUser(@RequestHeader("token") String token, User modify_user) throws Exception {
         String id = (String) StpUtil.getLoginIdByToken(token);
         if (id == null) {
             return new ResultBuild(401, "无有效id。");
@@ -76,12 +80,21 @@ public class UserController {
         } else {
             return new ResultBuild(-1, "账号或密码为空。");
         }
-
     }
     @RequestMapping("/common/sendSignCode")
     @ResponseBody
     public ResultBuild sendSignCode(HttpServletRequest httpServletRequest, String email) throws Exception {
         userService.getRandomString(4, email, httpServletRequest.getRemoteAddr());
         return new ResultBuild(200, "您的邮件已发送，请查收。");
+    }
+
+    @SaCheckRole("admin")
+    @RequestMapping("/api/getAllUser")
+    @ResponseBody
+    public ResultBuild getAllUser(int pageNum){
+        //[pageNum, pageSize]  页码  每页显示数量
+        PageHelper.startPage(pageNum, 12);
+        PageInfo<User> pageInfo = new PageInfo<>(userService.getAllUser());
+        return new ResultBuild(200,pageInfo);
     }
 }

@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.*;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @Mapper
 @Primary
@@ -15,6 +17,9 @@ public interface UserDao {
 
     @Select("SELECT * FROM user WHERE id = #{id}")
     User getUser(int id);
+
+    @Select("SELECT id,name,sex,email,phone,type,grade,sign,identity FROM user ")
+    List<User> getAllUser();
 
     @Select("SELECT * FROM user WHERE phone = #{phone}")
     User getUserByPhone(@Param("phone") String phone);
