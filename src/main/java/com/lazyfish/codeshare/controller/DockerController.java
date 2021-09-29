@@ -23,14 +23,22 @@ public class DockerController {
     private RedisTemplate<String,Object> redisTemplate;
     @RequestMapping("/api/dockerBuild")
     @ResponseBody
-    public ResultBuild DockerBuild(String password) throws Exception {
-        dockerClientService.createContainer("testContainer","1",password,"8443");
-        return new ResultBuild(200,"8443");
+    public ResultBuild DockerBuild(@RequestHeader("token") String token, String password) throws Exception {
+        String id = (String) StpUtil.getLoginIdByToken(token);
+        int docker_num = 1;
+        if(redisTemplate.opsForValue().get("docker_num")!=null){
+            docker_num = (int) redisTemplate.opsForValue().get("docker_num");
+        }
+        int docker_port = 8000 + docker_num;
+        Object object = dockerClientService.createContainer("testContainer"+id,id,password,String.valueOf(docker_port));
+        redisTemplate.opsForValue().set("docker_num",docker_num + 1);
+        return new ResultBuild(200,object);
     }
     @RequestMapping("/api/dockerCheck")
     @ResponseBody
-    public ResultBuild dockerCheck(String password) throws Exception {
-        Long createTime = (Long) redisTemplate.opsForValue().get("docker1_time");
+    public ResultBuild dockerCheck(@RequestHeader("token") String token) throws Exception {
+        String id = (String) StpUtil.getLoginIdByToken(token);
+        Long createTime = (Long) redisTemplate.opsForValue().get("docker"+id+"_time");
         return new ResultBuild(200,createTime);
     }
 

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -20,7 +21,7 @@ public class DockerClientService  {
     @Resource
     private RedisTemplate<String,Object> redisTemplate;
     public DockerClientService() {
-        log.info("docker服务实例化成功");
+        log.info("docker服务已就绪，准备连接……");
         this.connectDocker();
     }
     public DockerClient connectDocker() {
@@ -40,6 +41,7 @@ public class DockerClientService  {
         dockerClient.removeContainerCmd(containerId).exec();
     }
     public Object createContainer(String name,String codeId,String passWord,String port) throws Exception {
+        HashMap hashMap = new HashMap();
         try {
             //创建容器
             CreateContainerResponse container1 = dockerClient.createContainerCmd("codexiaoxi/code-server")
@@ -49,15 +51,16 @@ public class DockerClientService  {
                     .withEnv("PASSWORD=" + passWord)
                     .withUser("root")
                     .exec();
-            redisTemplate.opsForValue().set("docker1",container1.getId(),60*30, TimeUnit.SECONDS);
-            redisTemplate.opsForValue().set("docker1_bak",container1.getId());
-            redisTemplate.opsForValue().set("docker1_time",new Date().getTime());
+            redisTemplate.opsForValue().set("docker" + codeId,container1.getId(),60*30, TimeUnit.SECONDS);
+            redisTemplate.opsForValue().set("docker"+ codeId+"_bak",container1.getId());
+            redisTemplate.opsForValue().set("docker"+ codeId+"_time",new Date().getTime());
+            hashMap.put("containerId",container1.getId());
+            hashMap.put("port",port);
             //运行容器
             dockerClient.startContainerCmd(container1.getId()).exec();
         }catch (Exception e) {
-            throw new Exception("容器创建失败，可能有人正在使用。");
+            throw new Exception("容器创建失败，您可能有一个正在运行的容器正在使用。");
         }
-
-        return dockerClient;
+        return hashMap;
     }
 }
