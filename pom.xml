@@ -86,6 +86,11 @@
             <artifactId>jersey-hk2</artifactId>
             <version>2.27</version>
         </dependency>
+        <!-- websocket依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

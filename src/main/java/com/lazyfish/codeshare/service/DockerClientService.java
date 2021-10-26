@@ -6,6 +6,7 @@ import com.github.dockerjava.api.model.Info;
 import com.github.dockerjava.api.model.PortBinding;
 import com.github.dockerjava.core.DockerClientBuilder;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -20,14 +21,16 @@ public class DockerClientService  {
     private DockerClient dockerClient;
     @Resource
     private RedisTemplate<String,Object> redisTemplate;
-    public DockerClientService() {
-        log.info("docker服务已就绪，准备连接……");
+    @Value("${docker.host}")
+    private String host;
+    public void init() {
+        log.info(host + "docker服务已就绪，准备连接……");
         this.connectDocker();
     }
     public DockerClient connectDocker() {
         //使用DockerClientBuilder创建链接
         try {
-            dockerClient = DockerClientBuilder.getInstance("tcp://192.168.217.134:2233").build();
+            dockerClient = DockerClientBuilder.getInstance(host).build();
             Info info = dockerClient.infoCmd().exec();
             log.info("docker的环境信息如下：=================");
             log.info(String.valueOf(info));

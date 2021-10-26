@@ -26,7 +26,7 @@ public class MySaTokenConfig implements WebMvcConfigurer {
                 //匹配所有请求，除去登录请求
                 SaRouterUtil.match("/**", "/login", () -> StpUtil.checkLogin());
             }
-        })).addPathPatterns("/**").excludePathPatterns("/api/insertUser").excludePathPatterns("/common/**");
+        })).addPathPatterns("/**").excludePathPatterns("/api/insertUser").excludePathPatterns("/common/**").excludePathPatterns("/ws/**").excludePathPatterns("/ws**");
         registry.addInterceptor(new SaAnnotationInterceptor()).addPathPatterns("/**");
     }
 }
