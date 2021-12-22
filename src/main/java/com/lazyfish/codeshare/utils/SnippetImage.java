@@ -1,6 +1,6 @@
 package com.lazyfish.codeshare.utils;
 
-import sun.misc.BASE64Decoder;
+import java.util.Base64;
 
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -11,10 +11,10 @@ public class SnippetImage {
         if (imgStr == null) //图像数据为空
             return false;
         imgStr = imgStr.split(",")[1];
-        BASE64Decoder decoder = new BASE64Decoder();
+        Base64.Decoder decoder = Base64.getDecoder();
         try {
             //Base64解码
-            byte[] b = decoder.decodeBuffer(imgStr);
+            byte[] b =  decoder.decode(imgStr);
             for(int i=0;i<b.length;++i)
             {
                 if(b[i]<0)
