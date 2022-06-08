@@ -4,7 +4,7 @@ public class HtmlBody {
     public static String getCodeHtmlBody(String code) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("<div style=\"text-align: center;margin: 20px;\">\n" +
-                "    <h1>CodeShare代码分享平台</h1>\n" +
+                "    <h1>WebMaker代码分享平台</h1>\n" +
                 "    <hr>\n" +
                 "    <div style=\"text-align: left;\">\n" +
                 "        <p>尊敬的用户，您好！</p>\n" +

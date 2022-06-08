@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.lazyfish.codeshare.entity.ForumReply;
 import com.lazyfish.codeshare.service.ForumReplyService;
 import com.lazyfish.codeshare.utils.ResultBuild;
+import com.lazyfish.codeshare.vo.ForumReplyVo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,7 @@ public class ForumReplyController {
     public ResultBuild getForumReply(Integer id,Integer pageNum) {
         //[pageNum, pageSize]  页码  每页显示数量
         PageHelper.startPage(pageNum, 12);
-        PageInfo<Map<String, Object>> pageInfo = new PageInfo<>(forumReplyService.getForumReply(id));
+        PageInfo<ForumReplyVo> pageInfo = new PageInfo<>(forumReplyService.getForumReply(id));
         return new ResultBuild(200,pageInfo);
     }
     @RequestMapping("/api/insertForumReply")

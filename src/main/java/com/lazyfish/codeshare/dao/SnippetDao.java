@@ -21,13 +21,13 @@ public interface SnippetDao {
     @Select("SELECT img FROM snippet WHERE id = #{id}")
     Snippet getSnippetImg(@Param("id")int id);
 
-    @Select("select `user`.name,`user`.identity,snippet.id,snippet.type,snippet.title from user,snippet where `user`.id=snippet.userid AND snippet.userid=#{userid} order by id desc")
+    @Select("select `user`.name,`user`.identity,`user`.email,snippet.id,snippet.type,snippet.title from user,snippet where `user`.id=snippet.userid AND snippet.userid=#{userid} order by id desc")
     List<SnippetList>  getSnippetByUserid(int userid);
 
-    @Select("select `user`.name,`user`.identity,snippet.id,snippet.type,snippet.title from user,snippet where `user`.id=snippet.userid order by id desc")
+    @Select("select `user`.name,`user`.identity,`user`.email,snippet.id,snippet.type,snippet.title from user,snippet where `user`.id=snippet.userid order by id desc")
     List<SnippetList>  getAllSnippet();
 
-    @Select("select `user`.name,`user`.identity,snippet.id,snippet.type,snippet.title from user,snippet where `user`.id=snippet.userid AND snippet.title like \"%\"#{title}\"%\" order by id desc")
+    @Select("select `user`.name,`user`.identity,`user`.email,snippet.id,snippet.type,snippet.title from user,snippet where `user`.id=snippet.userid AND snippet.title like \"%\"#{title}\"%\" order by id desc")
     List<SnippetList>  getSearchSnippet(String title);
 
     @Insert("INSERT INTO snippet (userid, title ,type, content) VALUES (#{userid}, #{title}, #{type}, #{content})")

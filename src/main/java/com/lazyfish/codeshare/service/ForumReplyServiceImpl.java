@@ -3,6 +3,7 @@ package com.lazyfish.codeshare.service;
 import com.lazyfish.codeshare.dao.ForumPageDao;
 import com.lazyfish.codeshare.dao.ForumReplyDao;
 import com.lazyfish.codeshare.entity.ForumReply;
+import com.lazyfish.codeshare.vo.ForumReplyVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ public class ForumReplyServiceImpl implements ForumReplyService{
     @Resource
     ForumPageService forumPageService;
     @Override
-    public List<Map<String, Object>> getForumReply(int id) {
+    public List<ForumReplyVo> getForumReply(int id) {
         return forumReplyDao.getForumReply(id);
     }
 

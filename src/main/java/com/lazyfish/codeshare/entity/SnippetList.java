@@ -1,9 +1,11 @@
 package com.lazyfish.codeshare.entity;
+import org.apache.commons.codec.digest.DigestUtils;
 
 public class SnippetList {
     private int id;
     private String title;
     private String name;
+    private String email;
     private int identity;
     private int type;
     public int getId() {
@@ -44,5 +46,13 @@ public class SnippetList {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public String getEmail() {
+        return DigestUtils.md5Hex(this.email);
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

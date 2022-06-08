@@ -6,6 +6,8 @@ import com.github.pagehelper.PageInfo;
 import com.lazyfish.codeshare.entity.ForumPage;
 import com.lazyfish.codeshare.service.ForumPageService;
 import com.lazyfish.codeshare.utils.ResultBuild;
+import com.lazyfish.codeshare.vo.ForumListItem;
+import com.lazyfish.codeshare.vo.ForumPageVo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @CrossOrigin(origins = "*") // 支持跨域
@@ -26,13 +29,13 @@ public class ForumPageController {
     public ResultBuild getAllForumPage(int pageNum) {
         //[pageNum, pageSize]  页码  每页显示数量
         PageHelper.startPage(pageNum, 12);
-        PageInfo<Map<String, Object>> pageInfo = new PageInfo<>(forumPageService.getAllForumPage());
+        PageInfo<ForumListItem> pageInfo = new PageInfo<>(forumPageService.getAllForumPage());
         return new ResultBuild(200,pageInfo);
     }
     @RequestMapping("/common/getForumPage")
     @ResponseBody
     public ResultBuild getForumPage(Integer id) {
-        Map<String, Object> forumPage = forumPageService.getForumPage(id);
+        ForumPageVo forumPage = forumPageService.getForumPage(id);
         return new ResultBuild(200,forumPage);
     }
     @RequestMapping("/api/insertForumPage")

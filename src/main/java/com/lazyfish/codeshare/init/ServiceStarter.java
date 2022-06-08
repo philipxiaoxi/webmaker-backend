@@ -13,6 +13,6 @@ public class ServiceStarter implements ApplicationRunner {
     private DockerClientService dockerClientService;
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        dockerClientService.init();
+        // dockerClientService.init();
     }
 }
