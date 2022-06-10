@@ -23,7 +23,8 @@ WebMaker前端仓库地址： https://github.com/philipxiaoxi/webmaker-frontend
 1. 需要安装redis
 2. 需要安装mysql，数据库导入文件在项目根目录
 3. 需要一个存储路径 如 I:/xx/xx 存放代码数据
-4. 配置`resources`下的`application.yml`文件
+4. 配置`resources`下的`application.templete.yml`文件然后重命名为`application.yml`
+5. 配置 `AliMailSender.Templete`下面的邮件发送配置信息然后重命名为`AliMailSender`
 5. 启动服务器，如无报错，则系统正常运行
 
 ## 杂杂念
