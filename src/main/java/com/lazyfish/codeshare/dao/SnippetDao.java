@@ -2,6 +2,7 @@ package com.lazyfish.codeshare.dao;
 
 import com.lazyfish.codeshare.entity.Snippet;
 import com.lazyfish.codeshare.entity.SnippetList;
+import com.lazyfish.codeshare.vo.SnippetVo;
 import org.apache.ibatis.annotations.*;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
@@ -16,8 +17,9 @@ public interface SnippetDao {
     @Select("SELECT COUNT(*) FROM snippet")
     int getTotal();
 
-    @Select("SELECT * FROM snippet WHERE id = #{id}")
-    Snippet getSnippet(@Param("id")int id);
+    @Select("SELECT snippet.*, `user`.identity, `user`.email, `user`.name FROM snippet JOIN  user ON snippet.userid = user.id WHERE snippet.id = #{id}")
+    SnippetVo getSnippet(@Param("id")int id);
+
     @Select("SELECT img FROM snippet WHERE id = #{id}")
     Snippet getSnippetImg(@Param("id")int id);
 

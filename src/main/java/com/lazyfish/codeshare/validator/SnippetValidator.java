@@ -4,6 +4,7 @@ import com.lazyfish.codeshare.entity.User;
 import com.lazyfish.codeshare.exception.RequireIdNotExistException;
 import com.lazyfish.codeshare.service.SnippetService;
 import com.lazyfish.codeshare.service.UserService;
+import com.lazyfish.codeshare.vo.SnippetVo;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -14,8 +15,8 @@ public class SnippetValidator {
     SnippetService snippetService;
     @Resource
     UserService userService;
-    public Snippet validate(int userId, int snippetId){
-        Snippet snippet = snippetService.getSnippet(snippetId);
+    public SnippetVo validate(int userId, int snippetId){
+        SnippetVo snippet = snippetService.getSnippet(snippetId);
         User user = userService.getUser(userId);
         if (snippet == null) {
             throw new RequireIdNotExistException("代码段ID不存在。");
