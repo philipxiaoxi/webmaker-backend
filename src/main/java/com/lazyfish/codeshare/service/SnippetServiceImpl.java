@@ -3,6 +3,7 @@ package com.lazyfish.codeshare.service;
 import com.lazyfish.codeshare.dao.SnippetDao;
 import com.lazyfish.codeshare.entity.Snippet;
 import com.lazyfish.codeshare.entity.SnippetList;
+import com.lazyfish.codeshare.vo.SnippetVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -21,8 +22,8 @@ public class SnippetServiceImpl implements SnippetService{
     }
 
     @Override
-    @Cacheable(cacheNames = "snippet",key = "#id")
-    public Snippet getSnippet(int id) {
+    @Cacheable(cacheNames = "snippetVo",key = "#id")
+    public SnippetVo getSnippet(int id) {
         return snippetDao.getSnippet(id);
     }
 

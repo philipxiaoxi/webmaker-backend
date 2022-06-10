@@ -11,6 +11,7 @@ import com.lazyfish.codeshare.utils.FileUtils;
 import com.lazyfish.codeshare.utils.ResultBuild;
 import com.lazyfish.codeshare.utils.SnippetImage;
 import com.lazyfish.codeshare.validator.SnippetValidator;
+import com.lazyfish.codeshare.vo.SnippetVo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.MediaType;
@@ -77,13 +78,14 @@ public class SnippetController {
     @RequestMapping("/common/getSnippet")
     @ResponseBody
     public ResultBuild getSnippet(Integer id) {
-        Snippet snippet = snippetService.getSnippet(id);
+        SnippetVo snippet = snippetService.getSnippet(id);
+        System.out.println(snippet);
         return new ResultBuild(200,snippet);
     }
     @RequestMapping("/common/SnippetHtml/{id}")
     @ResponseBody
     public String SnippetHtml(@PathVariable int id) {
-        Snippet snippet = snippetService.getSnippet(id);
+        SnippetVo snippet = snippetService.getSnippet(id);
         return snippet.getContent();
     }
     // TODO: 2021/5/23 修复片段ID是前端传过来的

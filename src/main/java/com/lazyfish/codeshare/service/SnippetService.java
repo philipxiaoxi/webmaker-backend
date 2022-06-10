@@ -2,12 +2,14 @@ package com.lazyfish.codeshare.service;
 
 import com.lazyfish.codeshare.entity.Snippet;
 import com.lazyfish.codeshare.entity.SnippetList;
+import com.lazyfish.codeshare.vo.SnippetVo;
 
 import java.util.List;
 
 public interface SnippetService {
     int getTotal();
-    Snippet getSnippet(int id);
+
+    SnippetVo getSnippet(int id);
 
     List<SnippetList> getSnippetByUserid(int userid);
 
