@@ -1,4 +1,7 @@
-#配置服务器信息
+# 配置服务器信息
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
 server:
   # 端口
   port: 8089

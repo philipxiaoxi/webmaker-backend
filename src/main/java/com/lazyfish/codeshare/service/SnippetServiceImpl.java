@@ -44,7 +44,7 @@ public class SnippetServiceImpl implements SnippetService{
 
     @Override
     @Caching(evict = {
-        @CacheEvict(cacheNames = "snippet",key = "#snippet.id"),
+        @CacheEvict(cacheNames = "snippetVo",key = "#snippet.id"),
         @CacheEvict(cacheNames = "snippet_img",key = "#snippet.id")
     })
     public int updateSnippet(Snippet snippet) {

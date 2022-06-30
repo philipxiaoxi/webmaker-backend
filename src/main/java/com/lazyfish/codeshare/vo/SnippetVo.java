@@ -13,6 +13,7 @@ public class SnippetVo {
     private String email;
     private String name;
     private int identity;
+    private int openSource;
 
     public int getId() {
         return id;
@@ -95,5 +96,13 @@ public class SnippetVo {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getOpenSource() {
+        return openSource;
+    }
+
+    public void setOpenSource(int openSource) {
+        this.openSource = openSource;
     }
 }
