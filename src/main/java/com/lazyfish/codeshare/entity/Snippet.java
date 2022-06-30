@@ -7,7 +7,9 @@ public class Snippet {
     private String title;
     private String note;
     private String img;
-    private int type =0;
+    private int type = 0;
+    private int openSource = 0;
+
     public int getId() {
         return id;
     }
@@ -61,5 +63,13 @@ public class Snippet {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public int getOpenSource() {
+        return openSource;
+    }
+
+    public void setOpenSource(int openSource) {
+        this.openSource = openSource;
     }
 }

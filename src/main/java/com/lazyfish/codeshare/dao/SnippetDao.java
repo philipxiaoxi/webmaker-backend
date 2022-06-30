@@ -26,7 +26,7 @@ public interface SnippetDao {
     @Select("select `user`.name,`user`.identity,`user`.email,snippet.id,snippet.type,snippet.title from user,snippet where `user`.id=snippet.userid AND snippet.userid=#{userid} order by id desc")
     List<SnippetList>  getSnippetByUserid(int userid);
 
-    @Select("select `user`.name,`user`.identity,`user`.email,snippet.id,snippet.type,snippet.title from user,snippet where `user`.id=snippet.userid order by id desc")
+    @Select("select `user`.name,`user`.identity,`user`.email,snippet.id,snippet.type,snippet.title from user,snippet where `user`.id=snippet.userid and snippet.open_source = 1 order by id desc")
     List<SnippetList>  getAllSnippet();
 
     @Select("select `user`.name,`user`.identity,`user`.email,snippet.id,snippet.type,snippet.title from user,snippet where `user`.id=snippet.userid AND snippet.title like \"%\"#{title}\"%\" order by id desc")
@@ -36,6 +36,6 @@ public interface SnippetDao {
     @Options(useGeneratedKeys=true, keyProperty="id", keyColumn="id")
     void insertSnippet(Snippet snippet);
 
-    @Update("UPDATE snippet SET content=#{content},title=#{title},note=#{note},img=#{img} WHERE id= #{id}")
+    @Update("UPDATE snippet SET content=#{content},title=#{title},note=#{note},img=#{img},open_source=#{openSource} WHERE id= #{id}")
     int updateSnippet(Snippet snippet);
 }
